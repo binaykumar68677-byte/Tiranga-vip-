@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIRANGA VIP — Plans & QR Payment</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(245, 196, 81, 0.16), transparent 55%),
+        radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.12), transparent 45%),
+        #050a17;
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 18px 14px 40px;
+    }
+
+    .app {
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(245, 196, 81, 0.14);
+      border: 1px solid rgba(245, 196, 81, 0.4);
+      color: #f5c451;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .hero p {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .box {
+      background: linear-gradient(180deg, rgba(16, 27, 52, 0.96), rgba(8, 15, 31, 0.98));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .box-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #e2e8f0;
+      margin-bottom: 12px;
+    }
+
+    .plan-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .plan-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+      background: #12203d;
+      border: 1.5px solid rgba(255, 255, 255, 0.09);
+      border-radius: 15px;
+      padding: 14px;
+      color: #ffffff;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .plan-item.active {
+      background: linear-gradient(180deg, rgba(245, 196, 81, 0.18), rgba(245, 196, 81, 0.06));
+      border-color: #f5c451;
+      box-shadow: 0 0 0 1px rgba(245, 196, 81, 0.3);
+    }
+
+    .plan-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .plan-sub {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .plan-rate {
+      font-size: 19px;
+      font-weight: 900;
+      color: #f5c451;
+      white-space: nowrap;
+    }
+
+    .selected-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #060c1a;
+      border: 1px solid rgba(245, 196, 81, 0.3);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .selected-small {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+
+    .selected-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 2px;
+    }
+
+    .selected-price {
+      font-size: 22px;
+      font-weight: 900;
+      color: #f5c451;
+    }
+
+    .qr-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .qr-card img {
+      width: 240px;
+      height: 240px;
+      max-width: 100%;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 12px;
+    }
+
+    .qr-label {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .qr-apps {
+      margin-top: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .info-note {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 13px;
+      padding: 12px;
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .info-note strong {
+      color: #f5c451;
+    }
+
+    .tg-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      background: linear-gradient(135deg, #fde68a, #f5c451);
+      color: #050a17;
+      font-size: 14px;
+      font-weight: 900;
+      padding: 13px 16px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+
+    .copy-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #132240;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 11px 14px;
+      border-radius: 13px;
+      cursor: pointer;
+    }
+
+    .notice {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #f5c451;
+      border: 1px solid rgba(245, 196, 81, 0.45);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 99;
+      white-space: nowrap;
+    }
+
+    .notice.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="hero">
+      <div class="tag">TIRANGA VIP ACCESS</div>
+      <h1>Membership & QR Pay</h1>
+      <p>Plan chunein, neeche QR scan karke payment karein, aur screenshot bhejein.</p>
+    </div>
+
+    <div class="box">
+      <div class="box-title">1. Select Plan</div>
+      <div class="plan-stack">
+        <button type="button" class="plan-item active" data-plan="10 Days Plan" data-amount="2000" onclick="pickPlan(this)">
+          <div>
+            <div class="plan-title">10 Days Plan</div>
+            <div class="plan-sub">VIP Signals & Support</div>
+          </div>
+          <div class="plan-rate">₹2,000</div>
+        </button>
+
+        <button type="button" class="plan-item" data-plan="20 Days Plan" data-amount="3500" onclick="pickPlan(this)">
+          <div>
+            <div class="plan-title">20 Days Plan</div>
+            <div class="plan-sub">Extended VIP Access</div>
+          </div>
+          <div class="plan-rate">₹3,500</div>
+        </button>
+
+        <button type="button" class="plan-item" data-plan="30 Days Plan" data-amount="5000" onclick="pickPlan(this)">
+          <div>
+            <div class="plan-title">30 Days Plan</div>
+            <div class="plan-sub">Full Month VIP Access</div>
+          </div>
+          <div class="plan-rate">₹5,000</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-title">2. Scan QR Code</div>
+
+      <div class="selected-bar">
+        <div>
+          <div class="selected-small">Selected Plan</div>
+          <div class="selected-name" id="planText">10 Days Plan</div>
+        </div>
+        <div class="selected-price" id="amountText">₹2,000</div>
+      </div>
+
+      <div class="qr-card">
+        <img src="./qr.jpg" alt="Payment QR Code" />
+        <div class="qr-label">Scan QR To Pay</div>
+        <div class="qr-apps">Google Pay • PhonePe • Paytm • BHIM</div>
+      </div>
+
+      <div class="info-note">
+        Payment ke baad screenshot lekar <strong>@BinayKumar80</strong> ko bhejein.
+      </div>
+
+      <a class="tg-btn" href="https://t.me/BinayKumar80" target="_blank" rel="noopener noreferrer">
+        Send Screenshot to @BinayKumar80
+      </a>
+
+      <button type="button" class="copy-btn" onclick="copyText()">
+        Copy Payment Message
+      </button>
+    </div>
+  </div>
+
+  <div class="notice" id="noticeBox">Copied!</div>
+
+  <script>
+    let chosenPlan = "10 Days Plan";
+    let chosenAmount = 2000;
+
+    function pickPlan(el) {
+      document.querySelectorAll(".plan-item").forEach(function (btn) {
+        btn.classList.remove("active");
+      });
+      el.classList.add("active");
+
+      chosenPlan = el.getAttribute("data-plan");
+      chosenAmount = Number(el.getAttribute("data-amount"));
+
+      document.getElementById("planText").textContent = chosenPlan;
+      document.getElementById("amountText").textContent = "₹" + chosenAmount.toLocaleString("en-IN");
+    }
+
+    function showNotice(msg) {
+      const box = document.getElementById("noticeBox");
+      box.textContent = msg;
+      box.classList.add("show");
+      setTimeout(function () {
+        box.classList.remove("show");
+      }, 2200);
+    }
+
+    function copyText() {
+      const text =
+        "Hello @BinayKumar80, maine Tiranga VIP (" +
+        chosenPlan +
+        " - ₹" +
+        chosenAmount.toLocaleString("en-IN") +
+        ") ke liye QR payment kar diya hai. Screenshot bhej raha hoon.";
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          showNotice("Message copy ho gaya!");
+        }).catch(function () {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      showNotice("Message copy ho gaya!");
+    }
+  </script>
+</body>
+</html>
